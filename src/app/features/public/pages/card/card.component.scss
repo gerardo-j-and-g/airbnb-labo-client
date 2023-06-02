@@ -1,0 +1,53 @@
+:host {
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  cursor: pointer;
+
+  max-width: 26rem;
+  min-width: 26rem;
+  display: flex;
+
+  flex-direction: column;
+  padding: 1rem;
+
+  .image {
+    min-height: 26rem;
+    max-height: 26rem;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+
+    img {
+      width: 26rem;
+      height: 26rem;
+    }
+
+    i {
+      display: block;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: white;
+      text-shadow: 3px 3px 3px #2a8233;
+
+      &:hover {
+        text-shadow: 3px 3px 3px #45e655;
+      }
+    }
+  }
+
+  h2 {
+    margin: 1rem 0.5rem;
+  }
+  p {
+    font-size: 1.2rem;
+    margin-left: 0.5rem;
+    &:last-child {
+      font-size: 1.4rem;
+      padding-top: 0.4rem;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+<div class="image">
+  <p-galleria
+    [value]="images"
+    [showIndicators]="true"
+    [showThumbnails]="false"
+    [showIndicatorsOnItem]="true"
+    [containerStyle]="{ width: '26rem', height: '26rem' }"
+  >
+    <ng-template
+      pTemplate="item"
+      let-item
+      style="width: 100%; display: block; border: 1px red solid"
+    >
+      <img [src]="item" />
+    </ng-template>
+  </p-galleria>
+  <i class="pi pi-heart" style="font-size: 2rem"></i>
+</div>
+<h2>{{ datas.ville }}, {{ datas.pays }}</h2>
+<p>{{ datas.particulier ? "Particulier" : "Professionnel" }}</p>
+<p>
+  Du {{ datas.date.start | date : "dd/MM/YY" }} jusqu'au
+  {{ datas.date.end | date : "dd/MM/YY" }}
+</p>
+<p>
+  <strong>{{ datas.prix }} €</strong> par nuit
+</p>

@@ -5,15 +5,12 @@ import { PublicRoutingModule } from './public-routing.module';
 import { PublicComponent } from './public.component';
 import { HomeComponent } from './pages/home/home.component';
 
+import { MenubarModule } from 'primeng/menubar';
+import { CardComponent } from './pages/card/card.component';
+import { GalleriaModule } from 'primeng/galleria';
 
 @NgModule({
-  declarations: [
-    PublicComponent,
-    HomeComponent
-  ],
-  imports: [
-    CommonModule,
-    PublicRoutingModule
-  ]
+  declarations: [PublicComponent, HomeComponent, CardComponent],
+  imports: [CommonModule, PublicRoutingModule, MenubarModule, GalleriaModule],
 })
-export class PublicModule { }
+export class PublicModule {}

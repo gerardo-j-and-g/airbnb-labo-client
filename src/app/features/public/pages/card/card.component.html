@@ -1,27 +1,32 @@
-<div class="image">
-  <p-galleria
-    [value]="images"
-    [showIndicators]="true"
-    [showThumbnails]="false"
-    [showIndicatorsOnItem]="true"
-    [containerStyle]="{ width: '26rem', height: '26rem' }"
-  >
-    <ng-template
-      pTemplate="item"
-      let-item
-      style="width: 100%; display: block; border: 1px red solid"
+<div class="card">
+  <div class="image">
+    <p-galleria
+      [value]="images"
+      [showIndicators]="true"
+      [showIndicatorsOnItem]="true"
+      [showItemNavigators]="true"
+      [showItemNavigatorsOnHover]="true"
+      [circular]="true"
+      [containerStyle]="{ width: '18rem', height: '20rem' }"
     >
-      <img [src]="item" />
-    </ng-template>
-  </p-galleria>
-  <i class="pi pi-heart" style="font-size: 2rem"></i>
+      <ng-template
+        pTemplate="item"
+        let-item
+        style="width: 100%; display: block; border: 1px red solid"
+      >
+        <img [src]="item" [routerLink]="['/details', datas.id]" />
+      </ng-template>
+    </p-galleria>
+    <i class="pi pi-heart" style="font-size: 2rem"></i>
+  </div>
+  <div [routerLink]="['/details', datas.id]">
+    <h2>{{ datas.ville }}, {{ datas.pays }}</h2>
+    <p>{{ datas.particulier ? "Particulier" : "Professionnel" }}</p>
+    <p>
+      {{ getDates() }}
+    </p>
+    <p>
+      <strong>{{ datas.prix }} €</strong> par nuit
+    </p>
+  </div>
 </div>
-<h2>{{ datas.ville }}, {{ datas.pays }}</h2>
-<p>{{ datas.particulier ? "Particulier" : "Professionnel" }}</p>
-<p>
-  Du {{ datas.date.start | date : "dd/MM/YY" }} jusqu'au
-  {{ datas.date.end | date : "dd/MM/YY" }}
-</p>
-<p>
-  <strong>{{ datas.prix }} €</strong> par nuit
-</p>

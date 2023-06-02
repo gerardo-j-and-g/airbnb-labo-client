@@ -8,9 +8,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { MenubarModule } from 'primeng/menubar';
 import { CardComponent } from './pages/card/card.component';
 import { GalleriaModule } from 'primeng/galleria';
+import { DetailsComponent } from './pages/details/details.component';
 
 @NgModule({
-  declarations: [PublicComponent, HomeComponent, CardComponent],
+  declarations: [PublicComponent, HomeComponent, CardComponent, DetailsComponent],
   imports: [CommonModule, PublicRoutingModule, MenubarModule, GalleriaModule],
 })
 export class PublicModule {}

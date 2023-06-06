@@ -1,1 +1,65 @@
+<div id="filtre">
+  <p-button
+    (click)="filtersModalVisible = true"
+    icon="pi pi-external-link"
+    label="Filtre"
+  ></p-button>
+  <p-dialog
+    header="Header"
+    [(visible)]="filtersModalVisible"
+    [style]="{ width: '80vw', height: '80vh' }"
+    [draggable]="false"
+    [resizable]="false"
+    [modal]="true"
+    [dismissableMask]="true"
+    (onHide)="hideModalFilters()"
+  >
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">Filtrage des annonces</span>
+    </ng-template>
+    <form [formGroup]="formFilter" (ngSubmit)="submit()">
+      <div class="input-group">
+        <h3>Prix</h3>
+        <p>
+          Entre <strong>{{ rangePrices[0] }}€</strong> et
+          <strong>{{ rangePrices[1] }}€</strong>
+        </p>
+        <p-slider
+          [(ngModel)]="rangePrices"
+          class="w-full"
+          [range]="true"
+          formControlName="rangePrices"
+          [min]="0"
+          [max]="maxRangePrice"
+          [style]="{ 'max-width': '400px', margin: '0px auto' }"
+        ></p-slider>
+      </div>
+    </form>
+    <ng-template pTemplate="footer">
+      <p-button
+        icon="pi pi-refresh"
+        label="Reinitialiser"
+        styleClass="p-button-warning p-button-text"
+        (click)="reset()"
+      ></p-button>
+      <p-button
+        icon="pi pi-check"
+        (click)="submit()"
+        label="Filtrer"
+        styleClass="p-button-success p-button-text"
+      ></p-button>
+    </ng-template>
+  </p-dialog>
+</div>
+
 <app-card *ngFor="let item of list" [datas]="item"></app-card>
+
+<div id="paginator" class="card flex justify-content-center">
+  <p-paginator
+    (onPageChange)="changeItemPerPage($event)"
+    [first]="page * rows"
+    [rows]="rows"
+    [totalRecords]="count"
+    [rowsPerPageOptions]="itemsPerPages"
+  ></p-paginator>
+</div>

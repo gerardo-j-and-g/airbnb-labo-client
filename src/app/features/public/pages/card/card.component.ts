@@ -29,7 +29,7 @@ export class CardComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.images = this.datas.images;
+    this.images = [...this.datas.images].splice(0, 7);
   }
 
   test(): void {
@@ -37,21 +37,17 @@ export class CardComponent implements OnInit {
   }
 
   getDates(): string {
-    const start = new Date(this.datas.date.start);
-    const end = new Date(this.datas.date.end);
+    const start = new Date(JSON.parse(this.datas.date.start));
+    const end = new Date(JSON.parse(this.datas.date.end));
 
     return start.getMonth() === end.getMonth()
-      ? start.getDate() +
-          '-' +
-          end.getDate() +
-          ' ' +
-          this.month[end.getMonth() - 1]
+      ? start.getDate() + '-' + end.getDate() + ' ' + this.month[end.getMonth()]
       : start.getDate() +
           ' ' +
-          this.month[start.getMonth() - 1] +
+          this.month[start.getMonth()] +
           ' - ' +
           end.getDate() +
           ' ' +
-          this.month[end.getMonth() - 1];
+          this.month[end.getMonth()];
   }
 }

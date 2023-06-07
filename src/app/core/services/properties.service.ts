@@ -2,11 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ICard } from 'src/app/interfaces/card.interface';
 import { FormGroup } from '@angular/forms';
+import { CardSort } from '../enum/card-sort.enum';
 
 const defaultFilters: any = {
   page: 0,
   itemPerPage: 10,
   rangePrices: [0, 0],
+  dateRange: [],
+  selectedOrder: null,
 };
 
 @Injectable({
@@ -43,7 +46,7 @@ export class PropertiesService {
 
       const startDate = new Date(
         2023,
-        Math.floor(Math.random() * 12) + 1,
+        Math.floor(Math.random() * 12),
         Math.floor(Math.random() * 27) + 1
       );
 
@@ -60,6 +63,10 @@ export class PropertiesService {
       ...defaultFilters,
       ...JSON.parse(localStorage.getItem('propFilters') ?? '{}'),
     };
+
+    this.filters.dateRange = this.filters.dateRange
+      .filter((e: string) => e !== null)
+      .map((e: string) => new Date(e));
 
     return this.filters;
   }
@@ -185,11 +192,7 @@ export class PropertiesService {
   //#endregion
 
   getCount(): number {
-    return [...this.list].filter(
-      (card) =>
-        card.prix >= this.filters.rangePrices[0] &&
-        card.prix <= this.filters.rangePrices[1]
-    ).length;
+    return this.dataFiltered().length;
   }
 
   getMaxPrice(): number {
@@ -206,13 +209,69 @@ export class PropertiesService {
     this.filters = data;
     localStorage.setItem('propFilters', JSON.stringify(data));
     return of(
-      [...this.list]
-        .filter(
-          (card) =>
-            card.prix >= this.filters.rangePrices[0] &&
-            card.prix <= this.filters.rangePrices[1]
-        )
-        .splice(data.page * data.itemPerPage, data.itemPerPage)
+      this.dataFiltered().splice(
+        this.filters.page * this.filters.itemPerPage,
+        this.filters.itemPerPage
+      )
     );
+  }
+
+  dataFiltered() {
+    let lst = [...this.list]
+      .filter(
+        (card) =>
+          card.prix >= this.filters.rangePrices[0] &&
+          card.prix <= this.filters.rangePrices[1]
+      )
+      .filter((card) => {
+        // if(card.date)
+        const startDate = this.filters.dateRange[0] ?? new Date('1-1-1');
+        const endDate = this.filters.dateRange[1] ?? new Date('9999-12-31');
+
+        return (
+          new Date(JSON.parse(card.date.start)) >= startDate &&
+          new Date(JSON.parse(card.date.end)) <= endDate
+        );
+      });
+
+    if (this.filters.selectedOrder) {
+      switch (this.filters.selectedOrder) {
+        case CardSort.PRICE_ASC:
+          lst = lst.sort((a, b) => {
+            return a.prix - b.prix;
+          });
+          break;
+        case CardSort.PRICE_DESC:
+          lst = lst
+            .sort((a, b) => {
+              return a.prix - b.prix;
+            })
+            .reverse();
+          break;
+        case CardSort.DATE_ASC:
+          lst = lst.sort((a, b) => {
+            return (
+              new Date(JSON.parse(a.date.start)).getTime() -
+              new Date(JSON.parse(b.date.start)).getTime()
+            );
+          });
+          break;
+        case CardSort.DATE_DESC:
+          lst = lst
+            .sort((a, b) => {
+              return (
+                new Date(JSON.parse(a.date.start)).getTime() -
+                new Date(JSON.parse(b.date.start)).getTime()
+              );
+            })
+            .reverse();
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    return lst;
   }
 }

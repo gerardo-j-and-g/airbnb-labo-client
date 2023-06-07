@@ -7,44 +7,28 @@ import { MenuItem } from 'primeng/api';
 })
 export class PublicComponent implements OnInit {
   items: MenuItem[] = [];
+  modalConnection: boolean = false;
+  isConnected: boolean = false;
 
   ngOnInit(): void {
     this.items = [
-      // {
-      //   label: 'File',
-      //   icon: 'pi pi-fw pi-file',
-      //   items: [
-      //     {
-      //       label: 'New',
-      //       icon: 'pi pi-fw pi-plus',
-      //       items: [
-      //         {
-      //           label: 'Bookmark',
-      //           icon: 'pi pi-fw pi-bookmark',
-      //         },
-      //         {
-      //           label: 'Video',
-      //           icon: 'pi pi-fw pi-video',
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       label: 'Delete',
-      //       icon: 'pi pi-fw pi-trash',
-      //     },
-      //     {
-      //       separator: true,
-      //     },
-      //     {
-      //       label: 'Export',
-      //       icon: 'pi pi-fw pi-external-link',
-      //     },
-      //   ],
-      // },
       {
         label: 'Home',
         icon: 'pi pi-fw pi-home',
         routerLink: '/home',
+      },
+      {
+        label: 'Connexion',
+        icon: 'pi pi-sign-in',
+        command: () => {
+          this.isConnected = true;
+        },
+        visible: !this.isConnected,
+      },
+      {
+        label: 'Deconnexion',
+        icon: 'pi pi-sign-out',
+        visible: this.isConnected,
       },
     ];
   }
